@@ -27,8 +27,8 @@ ColumnLayout {
     // ── Direction ─────────────────────────────────────────────────────────────
     NComboBox {
         Layout.fillWidth: true
-        label: "Direction"
-        description: "Which way the visualizer grows"
+        label:       root.pluginApi?.tr("desktopWidgetSettings.direction-label")       ?? ""
+        description: root.pluginApi?.tr("desktopWidgetSettings.direction-description") ?? ""
         model: [
             { "key": "up",    "name": "Up"    },
             { "key": "down",  "name": "Down"  },
@@ -45,8 +45,8 @@ ColumnLayout {
     // ── Visualizer mode ───────────────────────────────────────────────────────
     NComboBox {
         Layout.fillWidth: true
-        label: "Visualizer Mode"
-        description: "How the audio is displayed"
+        label:       root.pluginApi?.tr("desktopWidgetSettings.mode-label")       ?? ""
+        description: root.pluginApi?.tr("desktopWidgetSettings.mode-description") ?? ""
         model: [
             { "key": "bars",   "name": "Bars"   },
             { "key": "wave",   "name": "Wave"   },
@@ -63,7 +63,8 @@ ColumnLayout {
     NValueSlider {
         Layout.fillWidth: true
         visible: root.valueMode !== "wave"
-        label: "Bar Count"
+        label:       root.pluginApi?.tr("desktopWidgetSettings.bar-count-label")       ?? ""
+        description: root.pluginApi?.tr("desktopWidgetSettings.bar-count-description") ?? ""
         value: root.valueBarCount
         from: 8
         to: 64
@@ -78,7 +79,8 @@ ColumnLayout {
     // ── Sensitivity ───────────────────────────────────────────────────────────
     NValueSlider {
         Layout.fillWidth: true
-        label: "Sensitivity"
+        label:       root.pluginApi?.tr("desktopWidgetSettings.sensitivity-label")       ?? ""
+        description: root.pluginApi?.tr("desktopWidgetSettings.sensitivity-description") ?? ""
         value: root.valueSensitivity
         from: 0.5
         to: 3.0
@@ -93,8 +95,8 @@ ColumnLayout {
     // ── Smoothing ─────────────────────────────────────────────────────────────
     NValueSlider {
         Layout.fillWidth: true
-        label: "Smoothing"
-        description: "Higher = slower decay"
+        label:       root.pluginApi?.tr("desktopWidgetSettings.smoothing-label")       ?? ""
+        description: root.pluginApi?.tr("desktopWidgetSettings.smoothing-description") ?? ""
         value: root.valueSmoothing
         from: 0.02
         to: 0.5
@@ -109,7 +111,8 @@ ColumnLayout {
     // ── FPS ───────────────────────────────────────────────────────────────────
     NComboBox {
         Layout.fillWidth: true
-        label: "Target FPS"
+        label:       root.pluginApi?.tr("desktopWidgetSettings.fps-label")       ?? ""
+        description: root.pluginApi?.tr("desktopWidgetSettings.fps-description") ?? ""
         model: [
             { "key": "24",  "name": "24 fps"  },
             { "key": "30",  "name": "30 fps"  },
@@ -130,8 +133,8 @@ ColumnLayout {
     // ── Size ──────────────────────────────────────────────────────────────────
     NValueSlider {
         Layout.fillWidth: true
-        label: "Custom Width"
-        description: "0 = use default"
+        label:       root.pluginApi?.tr("desktopWidgetSettings.custom-width-label")       ?? ""
+        description: root.pluginApi?.tr("desktopWidgetSettings.custom-width-description") ?? ""
         value: root.valueCustomWidth
         from: 0
         to: 1920
@@ -145,8 +148,8 @@ ColumnLayout {
 
     NValueSlider {
         Layout.fillWidth: true
-        label: "Custom Height"
-        description: "0 = use default"
+        label:       root.pluginApi?.tr("desktopWidgetSettings.custom-height-label")       ?? ""
+        description: root.pluginApi?.tr("desktopWidgetSettings.custom-height-description") ?? ""
         value: root.valueCustomHeight
         from: 0
         to: 1080
@@ -160,8 +163,8 @@ ColumnLayout {
 
     // ── Toggles ───────────────────────────────────────────────────────────────
     NToggle {
-        label: "Color Gradient"
-        description: "Blend primary → secondary color"
+        label:       root.pluginApi?.tr("desktopWidgetSettings.gradient-label")       ?? ""
+        description: root.pluginApi?.tr("desktopWidgetSettings.gradient-description") ?? ""
         checked: root.valueUseGradient
         defaultValue: true
         onToggled: checked => {
@@ -171,8 +174,8 @@ ColumnLayout {
     }
 
     NToggle {
-        label: "Fade When Idle"
-        description: "Fade out when no audio is playing"
+        label:       root.pluginApi?.tr("desktopWidgetSettings.fade-idle-label")       ?? ""
+        description: root.pluginApi?.tr("desktopWidgetSettings.fade-idle-description") ?? ""
         checked: root.valueFadeWhenIdle
         defaultValue: true
         onToggled: checked => {
@@ -182,8 +185,8 @@ ColumnLayout {
     }
 
     NToggle {
-        label: "Use Custom Colors"
-        description: "Override theme colors with your own"
+        label:       root.pluginApi?.tr("desktopWidgetSettings.custom-colors-label")       ?? ""
+        description: root.pluginApi?.tr("desktopWidgetSettings.custom-colors-description") ?? ""
         checked: root.valueUseCustomColors
         defaultValue: false
         onToggled: checked => {
@@ -197,7 +200,7 @@ ColumnLayout {
         Layout.fillWidth: true
         visible: root.valueUseCustomColors
         spacing: Style.marginM
-        NText { text: "Primary Color"; Layout.fillWidth: true }
+        NText { text: root.pluginApi?.tr("desktopWidgetSettings.primary-color-label") ?? ""; Layout.fillWidth: true }
         NColorPicker {
             screen: Screen
             selectedColor: root.valueCustomPrimary
@@ -212,7 +215,7 @@ ColumnLayout {
         Layout.fillWidth: true
         visible: root.valueUseCustomColors
         spacing: Style.marginM
-        NText { text: "Secondary Color"; Layout.fillWidth: true }
+        NText { text: root.pluginApi?.tr("desktopWidgetSettings.secondary-color-label") ?? ""; Layout.fillWidth: true }
         NColorPicker {
             screen: Screen
             selectedColor: root.valueCustomSecondary

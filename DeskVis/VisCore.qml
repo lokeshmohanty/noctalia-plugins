@@ -110,11 +110,11 @@ Item {
                     var g = vert
                         ? ((ori === "right") ? ctx.createLinearGradient(0,0,W,0) : ctx.createLinearGradient(W,0,0,0))
                         : ((ori === "up")    ? ctx.createLinearGradient(0,H,0,0) : ctx.createLinearGradient(0,0,0,H))
-                    g.addColorStop(0, _rgba(core.colorA, 1.0))
-                    g.addColorStop(1, _rgba(core.colorB, 0.75))
+                    g.addColorStop(0, Qt.alpha(core.colorA, 1.0))
+                    g.addColorStop(1, Qt.alpha(core.colorB, 0.75))
                     ctx.fillStyle = g
                 } else {
-                    ctx.fillStyle = _rgba(core.colorA, 1.0)
+                    ctx.fillStyle = Qt.alpha(core.colorA, 1.0)
                 }
 
                 if (vert) {
@@ -149,12 +149,12 @@ Item {
                     var g = vert
                         ? ctx.createLinearGradient(0,0,W,0)
                         : ctx.createLinearGradient(0,0,0,H)
-                    g.addColorStop(0,   _rgba(core.colorA, 1.0))
-                    g.addColorStop(0.5, _rgba(core.colorB, 0.75))
-                    g.addColorStop(1,   _rgba(core.colorA, 1.0))
+                    g.addColorStop(0,   Qt.alpha(core.colorA, 1.0))
+                    g.addColorStop(0.5, Qt.alpha(core.colorB, 0.75))
+                    g.addColorStop(1,   Qt.alpha(core.colorA, 1.0))
                     ctx.fillStyle = g
                 } else {
-                    ctx.fillStyle = _rgba(core.colorA, 1.0)
+                    ctx.fillStyle = Qt.alpha(core.colorA, 1.0)
                 }
 
                 if (vert) ctx.fillRect(mid - half, p1, half * 2, thick)
@@ -171,12 +171,12 @@ Item {
 
             if (core.useGradient) {
                 var g = vert ? ctx.createLinearGradient(0,0,W,0) : ctx.createLinearGradient(0,0,0,H)
-                g.addColorStop(0,   _rgba(core.colorA, 1.0))
-                g.addColorStop(0.5, _rgba(core.colorB, 0.85))
-                g.addColorStop(1,   _rgba(core.colorA, 1.0))
+                g.addColorStop(0,   Qt.alpha(core.colorA, 1.0))
+                g.addColorStop(0.5, Qt.alpha(core.colorB, 0.85))
+                g.addColorStop(1,   Qt.alpha(core.colorA, 1.0))
                 ctx.fillStyle = g
             } else {
-                ctx.fillStyle = _rgba(core.colorA, 0.95)
+                ctx.fillStyle = Qt.alpha(core.colorA, 0.95)
             }
 
             ctx.beginPath()
@@ -209,14 +209,6 @@ Item {
 
             ctx.closePath()
             ctx.fill()
-        }
-
-        function _rgba(color, alpha) {
-            return "rgba("
-                + Math.round((color.r || 0) * 255) + ","
-                + Math.round((color.g || 0) * 255) + ","
-                + Math.round((color.b || 0) * 255) + ","
-                + alpha + ")"
         }
     }
 }
