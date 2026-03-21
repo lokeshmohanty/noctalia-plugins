@@ -60,7 +60,7 @@ Rectangle {
       Layout.fillWidth: true
       Layout.fillHeight: true
       contentWidth: width
-      contentHeight: textArea.implicitHeight
+      contentHeight: Math.ceil(textArea.contentHeight) + 1
       clip: true
       boundsBehavior: Flickable.StopAtBounds
       flickableDirection: Flickable.VerticalFlick

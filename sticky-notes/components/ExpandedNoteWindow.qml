@@ -145,7 +145,7 @@ Item {
             visible: !root.editing
             clip: true
             contentWidth: width
-            contentHeight: previewText.implicitHeight
+            contentHeight: Math.ceil(previewText.contentHeight) + 1
             boundsBehavior: Flickable.StopAtBounds
             flickableDirection: Flickable.VerticalFlick
 
@@ -173,7 +173,7 @@ Item {
             visible: root.editing
             clip: true
             contentWidth: width
-            contentHeight: editor.implicitHeight
+            contentHeight: Math.ceil(editor.contentHeight) + 1
             boundsBehavior: Flickable.StopAtBounds
             flickableDirection: Flickable.VerticalFlick
 

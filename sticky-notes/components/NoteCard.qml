@@ -52,7 +52,7 @@ Rectangle {
     : Math.min(
         Math.max(
           100 * Style.uiScaleRatio,
-          noteContent.implicitHeight + footerRow.implicitHeight + (Style.marginM * 2) + Style.marginXS
+          noteFlickable.contentHeight + noteCard.footerHeight + (Style.marginM * 2) + Style.marginXS
         ),
         300 * Style.uiScaleRatio
       )
@@ -91,7 +91,7 @@ Rectangle {
       Layout.fillHeight: true
       clip: true
       contentWidth: width
-      contentHeight: noteContent.implicitHeight
+      contentHeight: Math.ceil(noteContent.contentHeight) + 1
       boundsBehavior: Flickable.StopAtBounds
       flickableDirection: Flickable.VerticalFlick
       interactive: contentHeight > height
@@ -383,7 +383,7 @@ Rectangle {
         Layout.fillWidth: true
         Layout.fillHeight: true
         contentWidth: width
-        contentHeight: editTextArea.implicitHeight
+        contentHeight: Math.ceil(editTextArea.contentHeight) + 1
         clip: true
         boundsBehavior: Flickable.StopAtBounds
         flickableDirection: Flickable.VerticalFlick
