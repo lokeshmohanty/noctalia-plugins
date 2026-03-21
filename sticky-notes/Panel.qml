@@ -74,14 +74,24 @@ Item {
   // ── Functions ──────────────────────────────────────────
 
   function loadNotes() {
-    notesModel.clear();
     if (!root.pluginApi || !root.pluginApi.mainInstance) return;
 
     var notes = root.pluginApi.mainInstance.getDisplayNotes();
+    
+    // Simple check: if count is same and it's not empty, we might skip full reload 
+    // but for now let's at least check if we actually have different data.
+    // A better way is to compare JSON strings of the raw data.
+    var currentNotesJson = JSON.stringify(root.pluginApi.mainInstance.loadStoredNotes());
+    if (root._lastLoadedJson === currentNotesJson) return;
+    root._lastLoadedJson = currentNotesJson;
+
+    notesModel.clear();
     for (var i = 0; i < notes.length; i++) {
       notesModel.append(notes[i]);
     }
   }
+
+  property string _lastLoadedJson: ""
 
   function saveNote(noteId, content, saveColor) {
     if (root.pluginApi?.mainInstance) {

@@ -22,15 +22,28 @@ Item {
   property double expandedModified: 0
   signal notesChanged()
 
-  function formatAbsoluteDate(timestamp) {
-    if (!timestamp) {
-      return "";
-    }
+  // Internal cache for parsed and formatted notes
+  property var _notesCache: []
 
-    var d = new Date(timestamp);
-    var pad = function(value) { return value < 10 ? "0" + value : "" + value; };
-    return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate())
-      + " " + pad(d.getHours()) + ":" + pad(d.getMinutes());
+  function getDisplayNotes() {
+    if (_notesCache.length === 0) {
+        _notesCache = _prepareNotes(loadStoredNotes());
+    }
+    return _notesCache;
+  }
+
+  function _prepareNotes(notes) {
+    if (!Array.isArray(notes)) return [];
+    
+    for (var i = 0; i < notes.length; i++) {
+      var note = notes[i];
+      if (!note.color || note.color === "") {
+        note.color = Storage.pickRandomColor();
+      }
+      note.noteColor = note.color;
+      note.modifiedStr = Storage.formatDate(new Date(note.modified), root.pluginApi);
+    }
+    return notes;
   }
 
   function withCurrentScreen(callback) {
@@ -66,24 +79,12 @@ Item {
     }
   }
 
-  function getDisplayNotes() {
-    var notes = loadStoredNotes();
-    for (var i = 0; i < notes.length; i++) {
-      var note = notes[i];
-      if (!note.color || note.color === "") {
-        note.color = Storage.pickRandomColor();
-      }
-      note.noteColor = note.color;
-      note.modifiedStr = Storage.formatDate(new Date(note.modified), root.pluginApi);
-    }
-    return notes;
-  }
-
   function persistNotes(notes) {
     if (!pluginApi) {
       return;
     }
 
+    _notesCache = _prepareNotes(notes);
     pluginApi.pluginSettings.notes = JSON.stringify(notes);
     pluginApi.saveSettings();
 

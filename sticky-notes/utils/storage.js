@@ -48,8 +48,8 @@ function formatDate(date, pluginApi) {
         return fallback;
     };
 
+    const d = (date instanceof Date) ? date : new Date(date);
     const now = new Date();
-    const d = new Date(date);
     const diffMs = now.getTime() - d.getTime();
     const diffMins = Math.floor(diffMs / 60000);
 
@@ -62,11 +62,12 @@ function formatDate(date, pluginApi) {
     const diffDays = Math.floor(diffHours / 24);
     if (diffDays < 7) return t("time.days-ago", "{n}d ago").replace("{n}", diffDays);
 
-    const mo = String(d.getMonth() + 1).padStart(2, '0');
-    const day = String(d.getDate()).padStart(2, '0');
+    const year = d.getFullYear();
+    const mo = (d.getMonth() + 1).toString().padStart(2, '0');
+    const day = d.getDate().toString().padStart(2, '0');
 
-    if (d.getFullYear() === now.getFullYear()) {
+    if (year === now.getFullYear()) {
         return `${mo}/${day}`;
     }
-    return `${d.getFullYear()}/${mo}/${day}`;
+    return `${year}/${mo}/${day}`;
 }

@@ -26,6 +26,15 @@ Rectangle {
   // Computed
   property bool isEditing: editingIndex === index
   property bool confirmingDelete: false
+  property string renderedContent: ""
+
+  onContentChanged: updateRendered()
+  onNoteColorChanged: updateRendered()
+  Component.onCompleted: updateRendered()
+
+  function updateRendered() {
+    renderedContent = Markdown.render(noteCard.content || "", { noteColor: noteCard.noteColor || "#FFF9C4" });
+  }
 
   // Signals
   signal saveClicked(string editedContent, string editedColor)
@@ -92,7 +101,7 @@ Rectangle {
         id: noteContent
         width: parent.width
         height: contentHeight
-        text: Markdown.render(noteCard.content || "", { noteColor: noteCard.noteColor || "#FFF9C4" })
+        text: noteCard.renderedContent
         textFormat: TextEdit.RichText
         font.pointSize: Style.fontSizeS * Style.uiScaleRatio
         color: "#37474F"
