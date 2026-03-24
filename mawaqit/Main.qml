@@ -88,9 +88,9 @@ Item {
       command: [
         "bash", "-c",
         "if command -v paplay >/dev/null 2>&1; then " +
-        "paplay " + filePath + "; " +
+        "paplay '" + filePath + "'; " +
         "elif command -v pw-cat >/dev/null 2>&1; then " +
-        "pw-cat -p " + filePath + "; " +
+        "pw-cat -p '" + filePath + "'; " +
         "fi"
       ]
     })
