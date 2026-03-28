@@ -24,6 +24,18 @@ Item {
   // Shared state for context menu
   property var selectedPeer: null
   property var selectedPeerDelegate: null
+  property var sendTargetPeer: null
+
+  NFilePicker {
+    id: sendFilePicker
+    selectionMode: "files"
+    initialPath: Quickshell.env("HOME") ?? ""
+    onAccepted: function(paths) {
+      if (!mainInstance || !root.sendTargetPeer || paths.length === 0) return
+      var target = root.sendTargetPeer.HostName + ":"
+      mainInstance.sendFilesViaTaildrop(paths, target)
+    }
+  }
 
   function openPeerContextMenu(peer, delegate, mouseX, mouseY) {
     selectedPeer = peer
@@ -185,7 +197,14 @@ Item {
         label: pluginApi?.tr("context.use-exit-node"),
         action: "use-exit-node",
         icon: "globe",
-        enabled: (root.selectedPeer?.ExitNodeOption || false) && (root.selectedPeer?.Online || false)
+        visible: (root.selectedPeer?.ExitNodeOption || false) && !(root.selectedPeer?.ExitNode || false) && (root.selectedPeer?.Online || false)
+      },
+      {
+        label: pluginApi?.tr("context.send-file"),
+        action: "send-file",
+        icon: "file-upload",
+        visible: mainInstance?.taildropEnabled ?? true,
+        enabled: root.selectedPeer?.Online || false
       }
     ]
     onTriggered: function(action) {
@@ -204,6 +223,10 @@ Item {
           break
         case "use-exit-node":
           root.useExitNode(root.selectedPeer)
+          break
+        case "send-file":
+          root.sendTargetPeer = root.selectedPeer
+          sendFilePicker.openFilePicker()
           break
       }
     }
@@ -280,7 +303,7 @@ Item {
   }
 
   property real contentPreferredWidth: panelReady ? 400 * Style.uiScaleRatio : 0
-  property real contentPreferredHeight: panelReady ? Math.min(500, 200 + sortedPeerList.length * 48) * Style.uiScaleRatio : 0
+  property real contentPreferredHeight: panelReady ? Math.min(560, 260 + sortedPeerList.length * 48) * Style.uiScaleRatio : 0
 
   anchors.fill: parent
 
@@ -564,6 +587,27 @@ Item {
                 horizontalAlignment: Text.AlignHCenter
               }
             }
+          }
+        }
+      }
+
+      // Taildrop receive toggle
+      NButton {
+        Layout.fillWidth: true
+        visible: (mainInstance?.tailscaleRunning ?? false) && (mainInstance?.taildropEnabled ?? true)
+        text: (mainInstance?.taildropState === "receiving")
+          ? pluginApi?.tr("panel.taildrop.cancel")
+          : pluginApi?.tr("panel.taildrop.receive")
+        icon: (mainInstance?.taildropState === "receiving") ? "x" : "file-download"
+        backgroundColor: (mainInstance?.taildropState === "receiving") ? Color.mError : Color.mPrimary
+        textColor: (mainInstance?.taildropState === "receiving") ? Color.mOnError : Color.mOnPrimary
+        onClicked: {
+          if (!mainInstance) return
+          if (mainInstance.taildropState === "receiving") {
+            mainInstance.cancelTaildropReceive()
+          } else {
+            mainInstance.startTaildropReceive()
+            if (pluginApi) pluginApi.closePanel(pluginApi.panelOpenScreen)
           }
         }
       }

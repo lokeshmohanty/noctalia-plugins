@@ -25,7 +25,16 @@
     "ping-count-desc": "Number of ping packets to send when testing connectivity",
     "peer-action": "Peer Click Action",
     "default-peer-action": "Default Action",
-    "default-peer-action-desc": "Action when clicking on a peer in the panel"
+    "default-peer-action-desc": "Action when clicking on a peer in the panel",
+    "taildrop": "Taildrop",
+    "taildrop-enabled": "Enable Taildrop",
+    "taildrop-enabled-desc": "Allow sending and receiving files via Taildrop",
+    "taildrop-download-dir": "Download Directory",
+    "taildrop-download-dir-desc": "Directory where received files are saved (e.g. ~/Downloads)",
+    "taildrop-receive-mode": "Receive Mode",
+    "taildrop-receive-mode-desc": "How to run 'tailscale file get'. Operator mode requires no prompts if you have run 'sudo tailscale set --operator $USER'.",
+    "taildrop-receive-mode-operator": "Operator (no prompt)",
+    "taildrop-receive-mode-pkexec": "pkexec (prompt each time)"
   },
   "actions": {
     "widget-settings": "Widget Settings"
@@ -40,7 +49,8 @@
     "copy-fqdn": "Copy FQDN",
     "ssh": "SSH to host",
     "ping": "Ping host",
-    "use-exit-node": "Use as Exit Node"
+    "use-exit-node": "Use as Exit Node",
+    "send-file": "Send File"
   },
   "toast": {
     "title": "Tailscale",
@@ -76,6 +86,35 @@
       "online": "Online",
       "offline": "Offline",
       "disable": "Disable Exit Node"
+    },
+    "taildrop": {
+      "receive": "Receive via Taildrop",
+      "cancel": "Cancel Receive"
+    }
+  },
+  "taildrop": {
+    "widget": {
+      "title": "Taildrop",
+      "not-connected": "Tailscale not connected",
+      "drop-hint": "Drop files here to send",
+      "drop-hint-active": "Release to pick a peer",
+      "receiving": "Waiting for incoming files…",
+      "sending": "Sending files…",
+      "receive": "Receive Files",
+      "cancel": "Cancel"
+    },
+    "picker": {
+      "title": "Send to peer",
+      "subtitle": "Sending {count} file(s) — pick a destination",
+      "no-peers": "No online peers available",
+      "cancel": "Cancel"
+    },
+    "toast": {
+      "no-files": "No files were received",
+      "sent": "Files sent successfully"
+    },
+    "error": {
+      "unknown": "An unexpected error occurred"
     }
   }
 }
